@@ -42,6 +42,7 @@
 #include "os/metrics.h"
 #include "os/system_properties.h"
 #include "packet/packet_view.h"
+#include "../osi/include/properties.h"
 
 using bluetooth::crypto_toolbox::Octet16;
 
@@ -928,8 +929,19 @@ struct le_impl : public bluetooth::hci::LeAddressManagerCallback {
       le_scan_window_coded = le_scan_window;
     }
     InitiatorFilterPolicy initiator_filter_policy = InitiatorFilterPolicy::USE_FILTER_ACCEPT_LIST;
-    OwnAddressType own_address_type =
-        static_cast<OwnAddressType>(le_address_manager_->GetInitiatorAddress().GetAddressType());
+
+    // amlogic patch begin
+    char ble_privacy_text[PROPERTY_VALUE_MAX] = "true";  // default is enabled
+    OwnAddressType own_address_type;
+    if (osi_property_get("bluetooth.core.gap.le.privacy.enabled", ble_privacy_text, "true") &&
+        !strcmp(ble_privacy_text, "false")) {
+      own_address_type =
+          static_cast<OwnAddressType>(le_address_manager_->GetInitiatorAddress().GetAddressType());
+    } else {
+      own_address_type = OwnAddressType::RESOLVABLE_OR_RANDOM_ADDRESS;
+    }
+    // amlogic patch end
+
     uint16_t conn_interval_min = os::GetSystemPropertyUint32(kPropertyMinConnInterval, kConnIntervalMin);
     uint16_t conn_interval_max = os::GetSystemPropertyUint32(kPropertyMaxConnInterval, kConnIntervalMax);
     uint16_t conn_latency = os::GetSystemPropertyUint32(kPropertyConnLatency, kConnLatency);
