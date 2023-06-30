@@ -1145,7 +1145,7 @@ class ActiveDeviceManager {
         if (DBG) {
             Log.d(TAG, "wiredAudioDeviceConnected");
         }
-        setA2dpActiveDevice(null, true);
+        //setA2dpActiveDevice(null, true);
         setHfpActiveDevice(null);
         setHearingAidActiveDevice(null, true);
         setLeAudioActiveDevice(null, true);
