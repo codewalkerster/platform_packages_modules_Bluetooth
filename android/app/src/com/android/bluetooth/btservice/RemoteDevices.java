@@ -270,6 +270,26 @@ final class RemoteDevices {
         }
     }
 
+    void removeDualDevicesMap(BluetoothDevice device) {
+        Log.d(TAG , "removeDualDevicesMap" + device);
+        String idaddress = device.getIdentityAddress();
+
+        if (idaddress == null) {
+            debugLog("idaddress is null");
+            return;
+        }
+
+        String address = mDualDevicesMap.get(idaddress);
+        if (address == null) {
+            Log.d(TAG , "mDualDevicesMap not have " + idaddress);
+            return;
+        }
+
+        Log.d(TAG , "Removing device " + device + " idaddress "+ idaddress +" from DualDevices map ");
+
+        mDualDevicesMap.remove(idaddress);
+    }
+
     BluetoothDevice getDevice(byte[] address) {
         String addressString = Utils.getAddressStringFromByte(address);
         String deviceAddress = mDualDevicesMap.get(addressString);

@@ -638,6 +638,7 @@ class AdapterProperties {
                 } else {
                     debugLog("Failed to remove device: " + device);
                 }
+                mRemoteDevices.removeDualDevicesMap(device);
             }
             invalidateGetBondStateCache();
         } catch (Exception ee) {
