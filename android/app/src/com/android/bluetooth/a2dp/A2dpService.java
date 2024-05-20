@@ -1240,6 +1240,7 @@ public class A2dpService extends ProfileService {
         if ((device == null) || (fromState == toState)) {
             return;
         }
+        Log.i(TAG, "connectionStateChanged (" + device + "): "+ fromState + " -> " + toState);
         if (toState == BluetoothProfile.STATE_CONNECTED) {
             MetricsLogger.logProfileConnectionEvent(BluetoothMetricsProto.ProfileId.A2DP);
         }
@@ -1256,6 +1257,10 @@ public class A2dpService extends ProfileService {
                     mFactory.getAvrcpTargetService().removeStoredVolumeForDevice(device);
                 }
                 removeStateMachine(device);
+            }
+            if(isActiveDevice(device)) {
+                removeActiveDevice(false);
+                Log.i(TAG, "activedevice have disconnected  need removeActiveDevice");
             }
         }
     }
