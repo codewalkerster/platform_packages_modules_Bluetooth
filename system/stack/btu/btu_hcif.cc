@@ -1373,7 +1373,10 @@ static void btu_hcif_command_status_evt(uint8_t status, BT_HDR* command,
  ******************************************************************************/
 static void btu_hcif_hardware_error_evt(uint8_t* p) {
   LOG_ERROR("UNHANDLED Ctlr H/w error event - code:0x%x", *p);
-  BTA_sys_signal_hw_error();
+  usleep(100000); /* 100milliseconds */
+  /* Killing the process to force a restart as part of fault tolerance */
+  kill(getpid(), SIGKILL);
+  //BTA_sys_signal_hw_error();
 }
 
 /*******************************************************************************
