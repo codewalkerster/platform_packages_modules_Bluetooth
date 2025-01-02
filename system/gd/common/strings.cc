@@ -140,7 +140,7 @@ std::optional<uint64_t> Uint64FromString(const std::string& str) {
   }
   char* ptr = nullptr;
   errno = 0;
-  uint64_t value = std::strtoull(str.c_str(), &ptr, 10);
+  uint64_t value = std::strtoull(str.c_str(), &ptr, 0);
   if (errno != 0) {
     LOG_INFO("cannot parse string '%s' with error '%s'", str.c_str(), strerror(errno));
     return std::nullopt;
