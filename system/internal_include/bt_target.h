@@ -1007,4 +1007,17 @@
 
 #include "bt_trace.h"
 
+/******************************************************************************
+ *
+ * Odroid custom options here.
+ *
+ *****************************************************************************/
+#ifndef SUPERVISION_TIMEOUT
+#define SUPERVISION_TIMEOUT FALSE
+#endif
+
+#ifndef BLE_ADV_FILTER
+#define BLE_ADV_FILTER FALSE
+#endif
+
 #endif /* BT_TARGET_H */
