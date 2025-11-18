@@ -233,6 +233,11 @@ struct HciLayer::impl {
     common::StopWatch::DumpStopWatchLog();
     LOG_ERROR("Timed out waiting for 0x%02hx (%s)", op_code, OpCodeText(op_code).c_str());
     // TODO: LogMetricHciTimeoutEvent(static_cast<uint32_t>(op_code));
+    //ODROID
+    if (op_code == OpCode::LE_SET_SCAN_ENABLE) {
+        LOG_ERROR("op_code is OpCode::LE_SET_SCAN_ENABLE\n, RTL8821CU does not support BLE");
+        return;
+    }
 
     LOG_ERROR("Flushing %zd waiting commands", command_queue_.size());
     // Clear any waiting commands (there is an abort coming anyway)
