@@ -79,6 +79,8 @@ public class Config {
             FEATURE_BATTERY
     );
 
+    private static final boolean BT_SINK = SystemProperties.getBoolean("persist.service.bt.a2dp.sink", false);
+
     private static class ProfileConfig {
         Class mClass;
         boolean mSupported;
@@ -104,13 +106,13 @@ public class Config {
      * List of profile services with the profile-supported resource flag and bit mask.
      */
     private static final ProfileConfig[] PROFILE_SERVICES_AND_FLAGS = {
-            new ProfileConfig(A2dpService.class, A2dpService.isEnabled(),
+            new ProfileConfig(A2dpService.class, BT_SINK ? false : A2dpService.isEnabled(),
                     (1 << BluetoothProfile.A2DP)),
-            new ProfileConfig(A2dpSinkService.class, A2dpSinkService.isEnabled(),
+            new ProfileConfig(A2dpSinkService.class, BT_SINK ? false : A2dpSinkService.isEnabled(),
                     (1 << BluetoothProfile.A2DP_SINK)),
-            new ProfileConfig(AvrcpTargetService.class, AvrcpTargetService.isEnabled(),
+            new ProfileConfig(AvrcpTargetService.class, BT_SINK ? false : AvrcpTargetService.isEnabled(),
                     (1 << BluetoothProfile.AVRCP)),
-            new ProfileConfig(AvrcpControllerService.class, AvrcpControllerService.isEnabled(),
+            new ProfileConfig(AvrcpControllerService.class, BT_SINK ? false : AvrcpControllerService.isEnabled(),
                     (1 << BluetoothProfile.AVRCP_CONTROLLER)),
             new ProfileConfig(BassClientService.class, BassClientService.isEnabled(),
                     (1 << BluetoothProfile.LE_AUDIO_BROADCAST_ASSISTANT)),
